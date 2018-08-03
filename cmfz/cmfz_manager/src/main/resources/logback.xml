@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <!-- 设置控制台展示样式-->
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>[%p] %d{yyyy-MM-dd HH:mm:ss} %m %n</pattern>
+        </layout>
+
+    </appender>
+    <!-- 设置根级别-->
+    <root level="INFO">
+        <appender-ref ref="stdout" />
+    </root>
+    <!-- -->
+    <logger name="com.baizhi.dao" level="DEBUG" />
+</configuration>

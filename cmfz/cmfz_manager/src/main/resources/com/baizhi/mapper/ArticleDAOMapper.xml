@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.ArticleDAO">
+
+    <select id="queryAll" resultType="com.baizhi.entity.Article">
+        SELECT * FROM article LIMIT #{pageStart},#{rows}
+    </select>
+    <select id="queryOneByTitle"  resultType="com.baizhi.entity.Article">
+        SELECT * FROM article WHERE title = #{title}
+    </select>
+
+    <select id="queryTotalCount" resultType="java.lang.Integer">
+        select count(*) from article
+    </select>
+
+    <insert id="insertArticle">
+        INSERT INTO article (a_id,title,author,illustration,particulars,publish_date,a_state,html_url) VALUES (#{a_id},#{title},#{author},#{illustration},#{particulars},#{publish_date},#{a_state},#{html_url})
+    </insert>
+
+</mapper>

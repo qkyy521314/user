@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.ManagerDAO">
+
+    <resultMap id="manager" type="com.baizhi.entity.Manager">
+        <id column="m_id" property="m_id"/>
+        <result column="name" property="name"/>
+        <collection property="roles" ofType="com.baizhi.entity.Role">
+            <result column="role_name" property="role_name"/>
+        </collection>
+    </resultMap>
+
+    <select id="queryOneByNameRole" parameterType="java.lang.String" resultMap="manager">
+        SELECT m.m_id,m.name,r.role_name FROM
+            manager m LEFT JOIN manage_role mr
+                ON m.m_id = mr.manage_id
+            LEFT JOIN role r
+                ON mr.role_id =r.id
+            LEFT JOIN role_menu rm
+                ON r.id = rm.role_id
+        WHERE m.name=#{name}
+    </select>
+    <select id="queryOneByName" resultType="com.baizhi.entity.Manager">
+        SELECT * FROM manager WHERE name = #{name}
+    </select>
+    <select id="queryOne" parameterType="java.lang.Integer" resultType="com.baizhi.entity.Manager">
+        SELECT * FROM manager WHERE m_id = #{m_id}
+    </select>
+    <update id="updateManager">
+        UPDATE manager SET name =#{name},password=#{password},jurisdiction=#{jurisdiction},m_state=#{m_state},
+        m_salt=#{m_salt} WHERE m_id=#{m_id}
+    </update>
+    <insert id="insertManager">
+        <selectKey order="AFTER" keyProperty="m_id" resultType="java.lang.Integer">
+            select LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO manager (name,password,jurisdiction,m_state,m_salt) VALUES (#{name},#{password},#{jurisdiction},#{m_state},#{m_salt})
+    </insert>
+    <delete id="deleteManager" parameterType="java.lang.Integer">
+        DELETE FROM manager WHERE m_id=#{m_id}
+    </delete>
+</mapper>

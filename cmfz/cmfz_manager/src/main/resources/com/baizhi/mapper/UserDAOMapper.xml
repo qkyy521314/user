@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.UserDAO">
+
+    <select id="queryAll" resultType="com.baizhi.entity.User">
+        SELECT * FROM user  LIMIT #{pageStart},#{rows}
+    </select>
+    <select id="queryOneByMobilephone" parameterType="java.lang.String" resultType="com.baizhi.entity.User">
+        SELECT * FROM user WHERE mobilephone = #{mobilephone}
+    </select>
+
+    <update id="updateUser">
+        UPDATE user SET mobilephone =#{mobilephone},password=#{password},head_portrait=#{head_portrait},b_name=#{b_name},
+            username=#{username},address=#{address},signature=#{signature},age=#{age},u_ip=#{u_ip}
+        WHERE u_id=#{u_id}
+    </update>
+
+    <insert id="insertUsers" parameterType="java.util.List">
+        INSERT INTO user (u_id,mobilephone,password,head_portrait,b_name,username,address,signature,c_state,age,u_ip,registdate,salt)
+        VALUES
+        <foreach collection="list" item="obj" index="index" separator="," >
+        (#{obj.u_id},#{obj.mobilephone},#{obj.password},#{obj.head_portrait},#{obj.b_name},#{obj.username},#{obj.address},#{obj.signature},#{obj.c_state},#{obj.age},#{obj.u_ip},#{obj.registdate},#{obj.salt})
+        </foreach>
+    </insert>
+
+    <update id="deleteUser">
+        UPDATE user SET c_state=0 WHERE u_id=#{u_id}
+    </update>
+
+    <select id="queryTotalCount" resultType="java.lang.Integer">
+        select count(*) from user
+    </select>
+</mapper>
